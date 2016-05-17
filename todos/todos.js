@@ -15,9 +15,9 @@ var vm = new Todos({
     editTask: null
   },
   filters: {
-    openTasks: function () {
-      return this.tasks.filter(function (task) {
-        return task.done;
+    openTasks: function (tasks) {
+      return tasks.filter(function (task) {
+        return !task.done;
       });
     }
   },
@@ -32,6 +32,9 @@ var vm = new Todos({
     },
     removeTask: function (task) {
       this.tasks.$remove(task);
+    },
+    removeDoneTasks: function () {
+      this.tasks = this.$options.filters.openTasks(this.tasks);
     }
   },
 

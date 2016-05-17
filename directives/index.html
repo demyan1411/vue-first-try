@@ -75,6 +75,7 @@
       <h4>v-model (form-elements)</h4>
       <form action="">
         <input type="text"v-model="form.input" number>
+        <span>{{form.input}}</span>
         <br>
         <input type="checkbox" value="" v-model="form.checked">
         <br>
@@ -129,7 +130,7 @@
         isRed: true,
         css: {
           string: {
-            border: '1px solid red',
+            border: '3px solid #000',
             background: 'magenta'
           },
           obj: {

@@ -51,6 +51,7 @@
       <form v-on:submit="addTask">
         <input v-model="newTask" class="form-control" type="text" placeholder="Мне нужно...">
       </form>
+      <button v-on:click="removeDoneTasks">Remove done tasks</button>
       <br>
     </div>
   </div>
