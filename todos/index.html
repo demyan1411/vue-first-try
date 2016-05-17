@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <style>
+    .green {
+      color: green;
+    }
+    .green + span {
+      color: #999;
+      text-decoration: line-through;;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="todos" data-title="{{title}}">
+      <h1 class="text-center">Мой список дел</h1>
+      <br>
+
+      <ul class="list-group">
+        <li class="list-group-item" v-for="task in tasks">
+          <span
+            class="glyphicon glyphicon-ok"
+            v-on:click="task.done = !task.done"
+            v-bind:class="{green: task.done}"
+            v-show="task != editTask"
+            ></span>
+
+          <span
+            v-on:dblclick="editTask = task"
+            v-show="task != editTask">
+            {{task.title}}
+            <span class="close" v-on:click="removeTask(task)">&times;</span>
+
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            v-show="task == editTask"
+            v-model="editTask.title"
+            v-on:keyup.enter="editTask = null">
+        </li>
+      </ul>
+
+      <hr>
+
+      <form v-on:submit="addTask">
+        <input v-model="newTask" class="form-control" type="text" placeholder="Мне нужно...">
+      </form>
+      <br>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
+  <script src="todos.js"></script>
+</body>
+</html>

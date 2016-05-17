@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <style>
+    #container {
+      width: 600px;
+      margin: 0 auto;
+    }
+    #container div {
+      border-bottom: 1px solid #bbb;
+      text-align: center;
+      padding-bottom: 5px;
+    }
+    #container span {
+      display: inline-block;
+    }
+    #container code {
+      margin-bottom: 10px;
+      font-style: italic;
+      padding: 5px;
+      display: block;
+    }
+    .red {
+      color: red;
+    }
+    .left-text {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="container">
+    <div>
+      <h4>v-text (textContent)</h4>
+      <span v-text="text"></span>
+    </div>
+
+    <div>
+      <h4>v-html (innerHTML)</h4>
+      <span v-html="html"></span>
+    </div>
+
+    <div>
+      <h4>v-style (cssText)</h4>
+      <span v-bind:style="[css.string, css.obj]">goo style</span>
+    </div>
+
+    <div>
+      <h4>v-class</h4>
+      <span v-bind:class="{red: isRed}">class red</span>
+    </div>
+
+    <div>
+      <h4>v-show v-if (display)</h4>
+      <span v-show="display">display block</span>
+      <template v-if="!display">
+        <span>content of display</span>
+      </template>
+    </div>
+
+    <div>
+      <h4>v-on (events)</h4>
+      <span @click="isRed = !isRed">events listen</span>
+      <form @submit.prevent="addComment">
+        <textarea @keyup.enter="addComment" v-el:comment></textarea>
+        <input type="submit" name="name" value="добавить коммент">
+      </form>
+    </div>
+
+    <div>
+      <h4>v-model (form-elements)</h4>
+      <form action="">
+        <input type="text"v-model="form.input" number>
+        <br>
+        <input type="checkbox" value="" v-model="form.checked">
+        <br>
+        Option({{form.radio}}):
+        <input type="radio" value="one" v-model="form.radio">
+        <input type="radio" value="two" v-model="form.radio">
+        <br>
+        <select v-model="form.selected">
+          <option v-for="option in form.select.list" v-bind:value="option.value">{{option.text}}</option>
+        </select>
+        <span>Selected: {{ form.selected }}</span>
+      </form>
+
+      <pre>{{$data.form | json}}</pre>
+    </div>
+
+    <div>
+      <h4>v-for</h4>
+      <ul class="left-text">
+        <li v-for="(index, item) in repeat.list">{{index + ': '+ item}}</li>
+      </ul>
+      <hr>
+      <ul class="left-text">
+        <li v-for="(key, val) in repeat.current_user">{{key + ': '+ val}}</li>
+      </ul>
+      <hr>
+
+      <template v-for="user in repeat.userList" track-by="uid">
+        <span>{{user.firstName}} {{user.lastName}}</span>
+        <b>{{user.email}}</b>
+        <br>
+      </template>
+    </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
+  <script src="code.js"></script>
+  <script>
+
+    var vm = new Vue({
+      el: '#container',
+      methods: {
+        addComment: function () {
+          console.log('Add new comment:', this.$els.comment.value);
+        }
+      },
+      data: {
+        text: 'text text',
+        // html: '<img src="foo" onerror="alert(\'XSS\')">'
+        html: '<b>html html</b>',
+        isRed: true,
+        css: {
+          string: {
+            border: '1px solid red',
+            background: 'magenta'
+          },
+          obj: {
+            padding: '10px 70px'
+          }
+        },
+        display: false,
+        form: {
+          input: 'Input',
+          checked: true,
+          selected: 'A',
+          select: {
+            list: [
+              { text: 'One', value: 'A' },
+              { text: 'Two', value: 'B' },
+              { text: 'Three', value: 'C' }
+            ]
+          }
+        },
+        repeat: {
+          list: ['qwe','asd','zxc','123'],
+          userList: [
+            {
+              uid: 1,
+              lastName: 'drozdov',
+              firstName: 'demyan',
+              email: 'qwe@qwe.ru'
+            },
+            {
+              uid: 2,
+              lastName: 'drozdov2',
+              firstName: 'demyan2',
+              email: 'qwe@qwe.ru222'
+            }
+          ],
+          current_user: {
+            last_name: 'drozdov',
+            first_name: 'demyan',
+            email: 'demyan@mail.ru'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
